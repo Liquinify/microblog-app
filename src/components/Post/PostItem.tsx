@@ -6,8 +6,8 @@ import CommentIcon from "@mui/icons-material/Comment";
 import React, { FC, useState } from "react";
 import CommentsList from "../comment/CommentList";
 import { useQuery } from "react-query";
-import { getPosts } from "@/api/Posts";
-import { getComments } from "@/api/Comments";
+import { getPosts } from "@/api/getPosts";
+import { getComments } from "@/api/getComments";
 
 type Props = {
   post: Posts;

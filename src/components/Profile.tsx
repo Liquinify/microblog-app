@@ -4,8 +4,12 @@ import { Box, Button, Input, TextField, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-const Profile = ({ userData }) => {
+const Profile = ({ data }) => {
   const { register } = useForm();
+
+  useEffect(() => {
+    console.log(data);
+  }, []);
   return (
     <Box
       component="form"
@@ -17,7 +21,16 @@ const Profile = ({ userData }) => {
         mt: 15,
       }}
     >
-      {/* <img src={userData.user_metadata.avatar} alt="Profile" /> */}
+      <Box
+        component="img"
+        src={data.user.user_metadata.avatar}
+        sx={{
+          width: "40%",
+          borderRadius: "50%",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      />
       <Input
         type="file"
         inputProps={{
@@ -29,7 +42,9 @@ const Profile = ({ userData }) => {
       <TextField margin="normal" {...register("username", { maxLength: 30 })} />
       <Typography variant="caption">Username</Typography>
       <TextField margin="normal" {...register("email", { maxLength: 30 })} />
-      <Button type="submit">Update</Button>
+      <Button variant="contained" sx={{ mt: 3 }} type="submit">
+        Update
+      </Button>
     </Box>
   );
 };

@@ -5,7 +5,7 @@ import PostItem from "./PostItem";
 import { Posts } from "@/models/Posts";
 import { Box } from "@mui/material";
 import { useQuery } from "react-query";
-import { getPosts } from "@/api/Posts";
+import { getPosts } from "@/api/getPosts";
 
 type Props = {
   data: Posts;

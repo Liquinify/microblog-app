@@ -1,10 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import CommentItem from "./CommentItem";
 import CommentForm from "./CommentForm";
-import { useQuery } from "react-query";
-import { getComments } from "@/api/Comments";
 
 type Props = {};
 
