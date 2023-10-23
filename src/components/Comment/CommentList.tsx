@@ -8,18 +8,17 @@ import { getComments } from "@/api/Comments";
 
 type Props = {};
 
-const CommentList = ({ data, post }) => {
-  const [comments, setComments] = useState([]);
-  const { data: commentData, isError } = useQuery(["comments"], getComments);
-
+const CommentList = ({ data, post, commentData }) => {
   return (
     <div>
       {commentData
         ?.filter((comment) => comment.post_id === post.id)
         .map((comment) => (
-          <CommentItem comment={comment} key={comment.id} />
+          <div>
+            <CommentItem comment={comment} key={comment.id} />
+          </div>
         ))}
-      {isError && <p>Couldn't fetch the comments...</p>}
+      {/* {isError && <p>Couldn't fetch the comments...</p>} */}
       <CommentForm data={data} post={post} />
     </div>
   );

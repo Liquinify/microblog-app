@@ -28,6 +28,11 @@ const CommentItem = ({ comment }) => {
           gap: 1,
         }}
       >
+        <img
+          src={comment.avatar}
+          alt="User Avatar"
+          style={{ width: "3%", borderRadius: "50%" }}
+        />
         <Typography variant="subtitle1" color="primary">
           {comment.username}
         </Typography>

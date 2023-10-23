@@ -15,7 +15,10 @@ export default function SignOut() {
   };
 
   return (
-    <Button sx={{ color: "white" }} onClick={handleSignOut}>
+    <Button
+      sx={{ display: "flex", justifyContent: "flex-start" }}
+      onClick={handleSignOut}
+    >
       Sign Out
     </Button>
   );

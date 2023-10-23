@@ -14,6 +14,7 @@ const CommentForm = ({ data, post }) => {
     const { error } = await supabase.from("comments").insert({
       payload: formData.comment,
       username: data.user.user_metadata.username,
+      avatar: data.user.user_metadata.avatar,
       post_id: post.id,
     });
     if (!error) {
@@ -22,33 +23,29 @@ const CommentForm = ({ data, post }) => {
   };
 
   return (
-    <div>
-      {data.user.user_metadata.userType === "Author" ? null : (
-        <Box component="form" onSubmit={handleSubmit(createComment)}>
-          <TextField
-            margin="normal"
-            multiline
-            label="What do you think?"
-            id="post"
-            {...register("comment", { required: true, maxLength: 100 })}
-            sx={{ display: "flex", margin: "auto", mt: 5, marginInline: 2 }}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{
-              mt: 2,
-              backgroundColor: "blue",
-              color: "white",
-              ml: 2,
-              mb: 2,
-            }}
-          >
-            Post
-          </Button>
-        </Box>
-      )}
-    </div>
+    <Box component="form" onSubmit={handleSubmit(createComment)}>
+      <TextField
+        margin="normal"
+        multiline
+        label="What do you think?"
+        id="post"
+        {...register("comment", { required: true, maxLength: 100 })}
+        sx={{ display: "flex", margin: "auto", mt: 5, marginInline: 2 }}
+      />
+      <Button
+        type="submit"
+        variant="contained"
+        sx={{
+          mt: 2,
+          backgroundColor: "blue",
+          color: "white",
+          ml: 2,
+          mb: 2,
+        }}
+      >
+        Post
+      </Button>
+    </Box>
   );
 };
 

@@ -30,12 +30,11 @@ const SignUp = () => {
       options: {
         data: {
           username: formData.username,
-          userType: formData.userType,
+          avatar:
+            "https://xkblhftaptzdvtqhwyrz.supabase.co/storage/v1/object/public/avatars/blank.webp",
         },
       },
-      // redirectTo: `${window.location.origin}/auth/callback`,
     });
-
     if (error) {
       setErrorMsg(error.message);
     } else {
@@ -94,17 +93,6 @@ const SignUp = () => {
             autoComplete="current-password"
             {...register("password")}
           />
-          <TextField
-            sx={{ mt: 2 }}
-            fullWidth
-            label="Select your user type"
-            select
-            SelectProps={{ style: { minWidth: "200px" } }}
-            {...register("userType")}
-          >
-            <MenuItem value="Author">Author</MenuItem>
-            <MenuItem value="Commentator">Commentator</MenuItem>
-          </TextField>
           <Button
             type="submit"
             fullWidth

@@ -1,22 +1,17 @@
-import Navbar from "@/components/Navbar";
+import Profile from "@/components/Profile";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import React from "react";
 
-export default async function Home() {
+const page = async () => {
   const supabase = createServerComponentClient({ cookies });
 
   const {
-    data: { user },
+    data: { userData },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/sign-in");
-  }
+  return <Profile userData={userData} />;
+};
 
-  if (user) {
-    redirect("/posts");
-  }
-
-  return <main></main>;
-}
+export default page;

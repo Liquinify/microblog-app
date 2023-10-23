@@ -1,10 +1,13 @@
 "use client";
 
 import { Posts } from "@/models/Posts";
-import { Box, Button, Card, CardContent, Typography } from "@mui/material";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 import CommentIcon from "@mui/icons-material/Comment";
 import React, { FC, useState } from "react";
-import CommentsList from "../Comment/CommentList";
+import CommentsList from "../comment/CommentList";
+import { useQuery } from "react-query";
+import { getPosts } from "@/api/Posts";
+import { getComments } from "@/api/Comments";
 
 type Props = {
   post: Posts;
@@ -12,20 +15,32 @@ type Props = {
 
 const PostItem: FC<Props> = ({ post, data }) => {
   const [dropdown, setDropdown] = useState(false);
+  const { data: commentData, isError } = useQuery(["comments"], getComments);
+
+  const commentLength = commentData?.filter(
+    (comment) => comment.post_id === post.id
+  ).length;
+
   return (
     <Card
       variant="outlined"
       sx={{
         maxWidth: 800,
         margin: "16px auto",
-        minHeight: "8rem",
+        minHeight: "10rem",
       }}
     >
       <CardContent sx={{ mt: 1 }}>
-        <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <img
+            src={post.avatar}
+            alt="User Avatar"
+            style={{ width: "5%", borderRadius: "50%" }}
+          />
           <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
             {post.username}
           </Typography>
+          *
           <Typography variant="body1">
             {new Date(post.created_at).toUTCString()}
           </Typography>
@@ -35,20 +50,31 @@ const PostItem: FC<Props> = ({ post, data }) => {
         </Typography>
       </CardContent>
       <Box
-        sx={{ ml: 5, width: 5, height: 2, border: "none", cursor: "pointer" }}
+        sx={{
+          ml: 2,
+          border: "none",
+          cursor: "pointer",
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          mt: 0.5,
+          gap: 1,
+          background: "none",
+        }}
         onClick={() => setDropdown(!dropdown)}
         component="button"
       >
         <CommentIcon
           sx={{
-            ml: -4,
             color: "black",
             width: 20,
-            "&:hover": { color: "none" },
           }}
         />
+        {commentLength}
       </Box>
-      {dropdown && <CommentsList data={data} post={post} />}
+      {dropdown && (
+        <CommentsList commentData={commentData} data={data} post={post} />
+      )}
     </Card>
   );
 };

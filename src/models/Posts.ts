@@ -6,7 +6,7 @@ export type Posts = {
   user: {
     user_metadata: {
       username: string;
-      userType: string;
+      avatar: string;
     };
   };
 };
