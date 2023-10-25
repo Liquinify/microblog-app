@@ -6,13 +6,13 @@ import React from "react";
 
 const page = async () => {
   const supabase = createServerComponentClient({ cookies });
-  const { data } = await supabase.auth.getUser();
+  const { data: userData } = await supabase.auth.getUser();
 
   return (
-    <div>
-      <PostForm data={data} />
-      <PostList data={data} />
-    </div>
+    <>
+      <PostForm userData={userData} />
+      <PostList userData={userData} />
+    </>
   );
 };
 

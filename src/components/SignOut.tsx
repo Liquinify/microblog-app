@@ -1,7 +1,17 @@
 "use client";
 
-import { Button } from "@mui/material";
+import { Typography } from "@mui/material";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+
+const signOutStyles = {
+  display: "flex",
+  justifyContent: "flex-start",
+  color: "white",
+  fontFamily: "roboto",
+  fontSize: "1rem",
+  paddingTop: ".6rem",
+  cursor: "pointer",
+};
 
 export default function SignOut() {
   const supabase = createClientComponentClient();
@@ -15,11 +25,8 @@ export default function SignOut() {
   };
 
   return (
-    <Button
-      sx={{ display: "flex", justifyContent: "flex-start" }}
-      onClick={handleSignOut}
-    >
+    <Typography style={signOutStyles} onClick={handleSignOut}>
       Sign Out
-    </Button>
+    </Typography>
   );
 }

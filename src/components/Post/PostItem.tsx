@@ -13,7 +13,7 @@ type Props = {
   post: Posts;
 };
 
-const PostItem: FC<Props> = ({ post, data }) => {
+const PostItem: FC<Props> = ({ post, userData }) => {
   const [dropdown, setDropdown] = useState(false);
   const { data: commentData, isError } = useQuery(["comments"], getComments);
 
@@ -73,7 +73,11 @@ const PostItem: FC<Props> = ({ post, data }) => {
         {commentLength}
       </Box>
       {dropdown && (
-        <CommentsList commentData={commentData} data={data} post={post} />
+        <CommentsList
+          commentData={commentData}
+          userData={userData}
+          post={post}
+        />
       )}
     </Card>
   );

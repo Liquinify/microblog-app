@@ -1,75 +1,96 @@
 "use client";
 
-import { AppBar, Box, Card, Toolbar, Typography } from "@mui/material";
+import React, { useRef, useState, useEffect } from "react";
+import { AppBar, Box, Card, Toolbar, Typography, Button } from "@mui/material";
 import Link from "next/link";
-import React, { useState } from "react";
 import SignOut from "./SignOut";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { useRouter } from "next/navigation";
+import Dropdown from "./Dropdown";
+
+const buttonStyles = {
+  textDecoration: "none",
+  color: "white",
+};
 
 const Navbar = ({ data }) => {
   const [dropdown, setDropdown] = useState(false);
+  const router = useRouter();
+  const ref = useRef();
+
+  useEffect(() => {
+    const closeDropdown = (e) => {
+      if (!ref.current.contains(e.target)) {
+        setDropdown(false);
+      }
+    };
+
+    document.body.addEventListener("click", closeDropdown);
+
+    return () => document.body.removeEventListener("click", closeDropdown);
+  }, []);
 
   return (
-    <Box>
-      <AppBar position="sticky">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link
-              style={{ textDecoration: "none", color: "white" }}
-              href="/posts"
+    <AppBar
+      position="sticky"
+      sx={{ background: "#26272b", opacity: ".95", width: "100%" }}
+    >
+      <Toolbar sx={{ position: "relative" }}>
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          <Link
+            style={{ textDecoration: "none", color: "white" }}
+            href="/posts"
+          >
+            Microblogging
+          </Link>
+        </Typography>
+        {!data ? (
+          <Box
+            component="div"
+            sx={{
+              display: "flex",
+              gap: 3,
+            }}
+          >
+            <Button onClick={() => router.push("/sign-in")} sx={buttonStyles}>
+              Log in
+            </Button>
+            <Button
+              onClick={() => router.push("/sign-up")}
+              variant="contained"
+              sx={buttonStyles}
             >
-              Microblogging
-            </Link>
-          </Typography>
-          {!data ? (
-            <Box component="div">
-              <Link href="/sign-up">Sign Up</Link>
-              <Link href="/sign-in">Sign In</Link>
-            </Box>
-          ) : (
+              SIGN UP
+            </Button>
+          </Box>
+        ) : (
+          <Box
+            component="div"
+            ref={ref}
+            sx={{
+              display: "flex",
+              cursor: "pointer",
+              gap: 1,
+              justifyContent: "flex-end",
+            }}
+          >
             <Box
-              component="div"
-              sx={{
-                display: "flex",
-                cursor: "pointer",
-                gap: 1,
-                justifyContent: "flex-end",
-              }}
+              component="img"
+              src={data.user_metadata.avatar}
+              sx={{ width: "1.7rem", borderRadius: "50%" }}
+            />
+            <Typography sx={{ display: "flex", alignItems: "center" }}>
+              {data.user_metadata.username}
+            </Typography>
+            <ArrowDropDownIcon
               onClick={() => setDropdown(!dropdown)}
-            >
-              <Box
-                component="img"
-                src={data.user_metadata.avatar}
-                sx={{ width: "2%", borderRadius: "50%" }}
-              />
-              <Typography sx={{ display: "flex", alignItems: "center" }}>
-                {data.user_metadata.username}
-              </Typography>
-              <ArrowDropDownIcon />
-            </Box>
-          )}
-          {dropdown && (
-            <Card
-              sx={{
-                display: "flex",
-                justifyContent: "flex-start",
-                flexDirection: "column",
-                width: "8% ",
-                height: "10rem",
-                position: "absolute",
-                left: "90%",
-                top: "100%",
-                pl: 2,
-                pt: 2,
-              }}
-            >
-              <Link href="/profile">Profile</Link>
-              <SignOut />
-            </Card>
-          )}
-        </Toolbar>
-      </AppBar>
-    </Box>
+              sx={{ cursor: "pointer" }}
+            />
+          </Box>
+        )}
+        <Dropdown dropdown={dropdown} />
+      </Toolbar>
+    </AppBar>
   );
 };
 

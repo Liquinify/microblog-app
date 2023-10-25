@@ -6,18 +6,18 @@ import CommentForm from "./CommentForm";
 
 type Props = {};
 
-const CommentList = ({ data, post, commentData }) => {
+const CommentList = ({ userData, post, commentData }) => {
   return (
     <div>
       {commentData
         ?.filter((comment) => comment.post_id === post.id)
         .map((comment) => (
-          <div>
+          <div key={comment.id}>
             <CommentItem comment={comment} key={comment.id} />
           </div>
         ))}
       {/* {isError && <p>Couldn't fetch the comments...</p>} */}
-      <CommentForm data={data} post={post} />
+      <CommentForm data={userData} post={post} />
     </div>
   );
 };

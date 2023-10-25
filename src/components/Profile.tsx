@@ -7,9 +7,6 @@ import { useForm } from "react-hook-form";
 const Profile = ({ data }) => {
   const { register } = useForm();
 
-  useEffect(() => {
-    console.log(data);
-  }, []);
   return (
     <Box
       component="form"
