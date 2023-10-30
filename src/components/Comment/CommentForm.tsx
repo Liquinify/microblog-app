@@ -1,7 +1,6 @@
 "use client";
 
-import React, { FC } from "react";
-import { Posts } from "@/models/Posts";
+import React from "react";
 import { Box, Button, TextField } from "@mui/material";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";

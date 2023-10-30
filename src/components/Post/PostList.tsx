@@ -6,14 +6,14 @@ import { Box } from "@mui/material";
 import { useQuery } from "react-query";
 import { getPosts } from "@/api/getPosts";
 
-const PostList = ({ userData }) => {
+const PostList = ({ userData }: { userData: PostsWithUser }) => {
   const { data: postData, isError } = useQuery("posts", getPosts);
 
   const posts =
     postData?.map((post) => ({
       ...post,
       user_has_liked_post: !!post.likes.find(
-        (like) => like.user_id === userData.user.id
+        (like: PostsWithUser) => like.user_id === userData.user?.id ?? null
       ),
       likes: post.likes.length,
     })) ?? [];

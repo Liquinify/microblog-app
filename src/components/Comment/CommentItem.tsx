@@ -1,9 +1,7 @@
 import { Box, Paper, Typography } from "@mui/material";
 import React from "react";
 
-type Props = {};
-
-const CommentItem = ({ comment }) => {
+const CommentItem = ({ comment }: { comment: CommentsWithUser }) => {
   return (
     <Paper
       elevation={0}

@@ -9,7 +9,7 @@ import { getComments } from "@/api/getComments";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-const PostItem = ({ post }) => {
+const PostItem = ({ post }: { post: PostsWithUser }) => {
   const [dropdown, setDropdown] = useState(false);
   const { data: commentData, isError } = useQuery("comments", getComments);
   const queryClient = useQueryClient();

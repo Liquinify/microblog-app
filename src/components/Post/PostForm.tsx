@@ -6,7 +6,7 @@ import { Box, Button, TextField } from "@mui/material";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 
-const PostForm = ({ userData }) => {
+const PostForm = ({ userData }: { userData: PostsWithUser }) => {
   const { register, handleSubmit, reset } = useForm();
   const queryClient = useQueryClient();
 

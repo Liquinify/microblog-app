@@ -13,7 +13,7 @@ const AuthProvider = ({ accessToken, children }) => {
   useEffect(() => {
     const {
       data: { subscription: authListener },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = supabase.auth.onAuthStateChange((_, session) => {
       if (session?.access_token !== accessToken) {
         router.refresh();
       }

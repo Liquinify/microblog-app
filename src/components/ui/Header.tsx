@@ -17,19 +17,21 @@ const buttonStyles = {
 const Header = () => {
   const [dropdown, setDropdown] = useState(false);
   const router = useRouter();
-  const ref = useRef();
+  const ref = useRef(null);
   const { data: userData } = useQuery("user", getUser);
 
   useEffect(() => {
-    const closeDropdown = (e: MouseEvent) => {
-      if (ref?.current && !ref.current.contains(e.target)) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdown && ref.current && !ref.current.contains(e.target)) {
         setDropdown(false);
       }
     };
 
-    document.body.addEventListener("click", closeDropdown);
+    document.addEventListener("mousedown", handleClickOutside);
 
-    return () => document.body.removeEventListener("click", closeDropdown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   return (

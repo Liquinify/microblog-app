@@ -3,16 +3,20 @@
 import React from "react";
 import CommentItem from "./CommentItem";
 import CommentForm from "./CommentForm";
-import { Posts } from "@/models/Posts";
+import { Comments, Posts } from "@/app/global";
 
-type Props = {};
-
-const CommentList = ({ post, commentData }) => {
+const CommentList = ({
+  post,
+  commentData,
+}: {
+  post: Posts;
+  commentData: CommentsWithUser[];
+}) => {
   return (
     <>
       {commentData
-        ?.filter((comment) => comment.post_id === post.id)
-        .map((comment: Posts) => (
+        ?.filter((comment: Comments) => comment.post_id === post.id)
+        .map((comment: CommentsWithUser) => (
           <div key={comment.id}>
             <CommentItem comment={comment} key={comment.id} />
           </div>
