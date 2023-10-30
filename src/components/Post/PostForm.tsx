@@ -1,38 +1,29 @@
 "use client";
 
-import React, { FC, useEffect } from "react";
+import React from "react";
 import { supabase } from "@/lib/client";
-import { Posts } from "@/models/Posts";
 import { Box, Button, TextField } from "@mui/material";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 
-type Props = {
-  userData: Posts;
-};
-
-const PostForm: FC<Props> = ({ userData }) => {
+const PostForm = ({ userData }) => {
   const { register, handleSubmit, reset } = useForm();
   const queryClient = useQueryClient();
-
-  useEffect(() => {
-    console.log(userData);
-  }, []);
 
   const createPostMutation = useMutation(
     async (formData: FieldValues) => {
       const { error } = await supabase
         .from("posts")
-        .upsert({
+        .insert({
           post: formData.post,
-          username: userData.user.user_metadata.username,
-          avatar: userData.user.user_metadata.avatar,
+          user_id: userData.user.id,
         })
         .single();
       if (error) {
-        throw new Error("Failed to create a post");
+        console.log(error);
       }
     },
+
     {
       onSuccess: () => {
         queryClient.invalidateQueries("posts");
@@ -55,10 +46,19 @@ const PostForm: FC<Props> = ({ userData }) => {
             label="What are you up to?"
             id="post"
             {...register("post", { required: true, maxLength: 100 })}
-            sx={{ display: "flex", width: "50rem", margin: "auto", mt: 5 }}
+            sx={{
+              display: "flex",
+              width: "43%",
+              margin: "auto",
+              mt: 5,
+              background: "transparent",
+              borderColor: "#495057",
+              borderRadius: "10px",
+            }}
             inputProps={{
               style: {
                 height: "100px",
+                color: "white",
               },
             }}
           />

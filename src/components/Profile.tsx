@@ -1,11 +1,21 @@
 "use client";
 
-import { Box, Button, Input, TextField, Typography } from "@mui/material";
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import React from "react";
+import { Box, Button, TextField } from "@mui/material";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-const Profile = ({ data }) => {
-  const { register } = useForm();
+const Profile = () => {
+  const { register, handleSubmit } = useForm();
+
+  const updateProfile: SubmitHandler<FieldValues> = async (formData) => {
+    const supabase = createClientComponentClient();
+    const { data } = await supabase.auth.getUser();
+    const { error } = await supabase.from("profiles").upsert({
+      username: formData.username,
+      id: data.user?.id,
+    });
+  };
 
   return (
     <Box
@@ -17,28 +27,13 @@ const Profile = ({ data }) => {
         width: "40%",
         mt: 15,
       }}
+      onSubmit={handleSubmit(updateProfile)}
     >
-      <Box
-        component="img"
-        src={data.user.user_metadata.avatar}
-        sx={{
-          width: "40%",
-          borderRadius: "50%",
-          display: "flex",
-          justifyContent: "center",
-        }}
+      <TextField
+        label="Username"
+        margin="normal"
+        {...register("username", { maxLength: 30 })}
       />
-      <Input
-        type="file"
-        inputProps={{
-          accept: "image/*",
-        }}
-        {...register("image")}
-      />
-      <Typography variant="caption">Email</Typography>
-      <TextField margin="normal" {...register("username", { maxLength: 30 })} />
-      <Typography variant="caption">Username</Typography>
-      <TextField margin="normal" {...register("email", { maxLength: 30 })} />
       <Button variant="contained" sx={{ mt: 3 }} type="submit">
         Update
       </Button>

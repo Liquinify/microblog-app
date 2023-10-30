@@ -23,15 +23,17 @@ const SignUp = () => {
   const [successMsg, setSuccessMsg] = useState("");
   const { register, handleSubmit } = useForm();
 
+  const defaultAvatar =
+    "https://lesuezlfeulhjswwbyks.supabase.co/storage/v1/object/public/avatars/User-avatar.svg.png";
+
   const signUp: SubmitHandler<FieldValues> = async (formData) => {
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email: formData.email,
       password: formData.password,
       options: {
         data: {
           username: formData.username,
-          avatar:
-            "https://xkblhftaptzdvtqhwyrz.supabase.co/storage/v1/object/public/avatars/blank.webp",
+          avatar_url: defaultAvatar,
         },
       },
     });

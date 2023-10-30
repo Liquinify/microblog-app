@@ -1,7 +1,13 @@
 import { supabase } from "@/lib/client";
 
 export const getComments = async () => {
-  const { data } = await supabase.from("comments").select();
+  const { data, error } = await supabase
+    .from("comments")
+    .select("*, profiles(*)");
+
+  if (error) {
+    console.log(error);
+  }
 
   return data;
 };

@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import React from "react";
 
 const page = async () => {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies });
   const { data: userData } = await supabase.auth.getUser();
 
   return (

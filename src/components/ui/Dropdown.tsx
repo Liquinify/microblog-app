@@ -1,11 +1,7 @@
-import React, { FC } from "react";
+import React from "react";
 import { Box, Card } from "@mui/material";
 import Link from "next/link";
-import SignOut from "./SignOut";
-
-type Props = {
-  dropdown: boolean;
-};
+import SignOut from "../auth/SignOut";
 
 const dropdownStyles = {
   display: "flex",
@@ -21,7 +17,7 @@ const dropdownStyles = {
   background: "#26272b",
 };
 
-const Dropdown: FC<Props> = ({ dropdown }) => {
+const Dropdown = ({ dropdown }: { dropdown: boolean }) => {
   return (
     <>
       {dropdown && (

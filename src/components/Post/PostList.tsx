@@ -1,23 +1,27 @@
 "use client";
 
-import React, { FC } from "react";
+import React from "react";
 import PostItem from "./PostItem";
-import { Posts } from "@/models/Posts";
 import { Box } from "@mui/material";
 import { useQuery } from "react-query";
 import { getPosts } from "@/api/getPosts";
 
-type Props = {
-  data: Posts;
-};
-
-const PostList: FC<Props> = ({ userData }) => {
+const PostList = ({ userData }) => {
   const { data: postData, isError } = useQuery("posts", getPosts);
+
+  const posts =
+    postData?.map((post) => ({
+      ...post,
+      user_has_liked_post: !!post.likes.find(
+        (like) => like.user_id === userData.user.id
+      ),
+      likes: post.likes.length,
+    })) ?? [];
 
   return (
     <Box sx={{ mt: 10 }}>
-      {postData?.map((post: Posts) => (
-        <PostItem post={post} key={post.id} userData={userData} />
+      {posts?.map((post) => (
+        <PostItem post={post} key={post.id} />
       ))}
       {isError && <p>Failed to fetch posts...</p>}
     </Box>

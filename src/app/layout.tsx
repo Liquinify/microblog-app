@@ -6,8 +6,8 @@ import AuthProvider from "../components/AuthProvider";
 
 import "src/styles/globals.css";
 import QueryProvider from "@/components/QueryProvider";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Header from "@/components/ui/Header";
+import Footer from "@/components/ui/Footer";
 
 export const metadata: Metadata = {
   title: "Microblogging",
@@ -18,15 +18,11 @@ export const metadata: Metadata = {
 export const revalidate = 0;
 
 export default async function RootLayout({ children }) {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies });
 
   const {
     data: { session },
   } = await supabase.auth.getSession();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
   const accessToken = session?.access_token || null;
 
@@ -35,8 +31,8 @@ export default async function RootLayout({ children }) {
       <body>
         <div>
           <main>
-            <Navbar data={user} />
             <QueryProvider>
+              <Header />
               <AuthProvider accessToken={accessToken}>{children}</AuthProvider>
             </QueryProvider>
           </main>

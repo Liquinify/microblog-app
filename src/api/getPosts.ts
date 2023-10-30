@@ -1,12 +1,13 @@
 import { supabase } from "@/lib/client";
-import { FieldValues, SubmitHandler } from "react-hook-form";
-import { useMutation } from "react-query";
 
 export const getPosts = async () => {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("posts")
-    .select()
-    .order("created_at", { ascending: false });
+    .select(`*, profiles(*), likes(user_id)`);
+
+  if (error) {
+    console.log(error);
+  }
 
   return data;
 };

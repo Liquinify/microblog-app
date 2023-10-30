@@ -13,10 +13,11 @@ const CommentItem = ({ comment }) => {
         flexDirection: "column",
         paddingLeft: "8px",
         borderLeft: "1px solid #ccc",
-        marginBottom: "16px",
         ml: 2,
         borderRadius: 0,
         mt: 2,
+        background: "transparent",
+        color: "white",
       }}
     >
       <Box
@@ -29,14 +30,12 @@ const CommentItem = ({ comment }) => {
         }}
       >
         <img
-          src={comment.avatar}
-          alt="User Avatar"
+          src={comment.profiles.avatar_url}
+          alt="User avatar_url"
           style={{ width: "3%", borderRadius: "50%" }}
         />
-        <Typography variant="subtitle1" color="primary">
-          {comment.username}
-        </Typography>
-        <Typography variant="caption" color="textSecondary">
+        <Typography variant="subtitle1">{comment.profiles.username}</Typography>
+        <Typography variant="caption">
           {new Date(comment.created_at).toUTCString()}
         </Typography>
       </Box>

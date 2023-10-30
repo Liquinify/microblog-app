@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 const page = async () => {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies });
 
   const { data } = await supabase.auth.getUser();
 
@@ -13,7 +13,7 @@ const page = async () => {
     redirect("/posts");
   }
 
-  return <Profile data={data} />;
+  return <Profile />;
 };
 
 export default page;

@@ -1,26 +1,28 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { AppBar, Box, Card, Toolbar, Typography, Button } from "@mui/material";
+import { AppBar, Box, Toolbar, Typography, Button } from "@mui/material";
 import Link from "next/link";
-import SignOut from "./SignOut";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useRouter } from "next/navigation";
 import Dropdown from "./Dropdown";
+import { useQuery } from "react-query";
+import { getUser } from "@/api/getUser";
 
 const buttonStyles = {
   textDecoration: "none",
   color: "white",
 };
 
-const Navbar = ({ data }) => {
+const Header = () => {
   const [dropdown, setDropdown] = useState(false);
   const router = useRouter();
   const ref = useRef();
+  const { data: userData } = useQuery("user", getUser);
 
   useEffect(() => {
-    const closeDropdown = (e) => {
-      if (!ref.current.contains(e.target)) {
+    const closeDropdown = (e: MouseEvent) => {
+      if (ref?.current && !ref.current.contains(e.target)) {
         setDropdown(false);
       }
     };
@@ -33,7 +35,7 @@ const Navbar = ({ data }) => {
   return (
     <AppBar
       position="sticky"
-      sx={{ background: "#26272b", opacity: ".95", width: "100%" }}
+      sx={{ background: "black", opacity: ".95", width: "100%" }}
     >
       <Toolbar sx={{ position: "relative" }}>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
@@ -44,7 +46,7 @@ const Navbar = ({ data }) => {
             Microblogging
           </Link>
         </Typography>
-        {!data ? (
+        {!userData ? (
           <Box
             component="div"
             sx={{
@@ -74,18 +76,28 @@ const Navbar = ({ data }) => {
               justifyContent: "flex-end",
             }}
           >
-            <Box
-              component="img"
-              src={data.user_metadata.avatar}
-              sx={{ width: "1.7rem", borderRadius: "50%" }}
-            />
-            <Typography sx={{ display: "flex", alignItems: "center" }}>
-              {data.user_metadata.username}
-            </Typography>
-            <ArrowDropDownIcon
-              onClick={() => setDropdown(!dropdown)}
-              sx={{ cursor: "pointer" }}
-            />
+            {userData.map((user) => (
+              <Box
+                key={user.id}
+                sx={{ display: "flex", flexDirection: "row", gap: 2 }}
+                component="div"
+              >
+                <Box component="div" sx={{ display: "flex", gap: 2 }}>
+                  <Box
+                    component="img"
+                    src={user.avatar_url}
+                    sx={{ width: "1.3rem", borderRadius: "50%" }}
+                  />
+                  <Typography sx={{ display: "flex", alignItems: "center" }}>
+                    {user.username}
+                  </Typography>
+                </Box>
+                <ArrowDropDownIcon
+                  onClick={() => setDropdown(!dropdown)}
+                  sx={{ cursor: "pointer" }}
+                />
+              </Box>
+            ))}
           </Box>
         )}
         <Dropdown dropdown={dropdown} />
@@ -94,4 +106,4 @@ const Navbar = ({ data }) => {
   );
 };
 
-export default Navbar;
+export default Header;

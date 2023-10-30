@@ -1,25 +1,52 @@
 "use client";
 
-import { Posts } from "@/models/Posts";
+import React, { useState } from "react";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import CommentIcon from "@mui/icons-material/Comment";
-import React, { FC, useState } from "react";
 import CommentsList from "../comment/CommentList";
-import { useQuery } from "react-query";
-import { getPosts } from "@/api/getPosts";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getComments } from "@/api/getComments";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-type Props = {
-  post: Posts;
-};
-
-const PostItem: FC<Props> = ({ post, userData }) => {
+const PostItem = ({ post }) => {
   const [dropdown, setDropdown] = useState(false);
-  const { data: commentData, isError } = useQuery(["comments"], getComments);
+  const { data: commentData, isError } = useQuery("comments", getComments);
+  const queryClient = useQueryClient();
 
   const commentLength = commentData?.filter(
     (comment) => comment.post_id === post.id
   ).length;
+
+  const createLikeMutation = useMutation(
+    async () => {
+      const supabase = createClientComponentClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        if (post.user_has_liked_post) {
+          await supabase
+            .from("likes")
+            .delete()
+            .match({ user_id: user.id, post_id: post.id });
+        } else {
+          await supabase
+            .from("likes")
+            .insert({ user_id: user.id, post_id: post.id });
+        }
+      }
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("posts");
+      },
+    }
+  );
+
+  const submitLike = () => {
+    createLikeMutation.mutate();
+  };
 
   return (
     <Card
@@ -28,19 +55,34 @@ const PostItem: FC<Props> = ({ post, userData }) => {
         maxWidth: 800,
         margin: "16px auto",
         minHeight: "10rem",
+        color: "white",
+        background: "transparent",
+        border: "1px solid #495057",
+        borderRadius: "10px",
       }}
     >
       <CardContent sx={{ mt: 1 }}>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
           <img
-            src={post.avatar}
-            alt="User Avatar"
-            style={{ width: "5%", borderRadius: "50%" }}
+            src={post.profiles.avatar_url}
+            alt="User avatar_url"
+            style={{
+              width: "5%",
+              borderRadius: "50%",
+            }}
           />
-          <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-            {post.username}
+          <Typography
+            variant="subtitle2"
+            sx={{ fontWeight: 300, fontSize: 18 }}
+          >
+            {post.profiles.username}
           </Typography>
-          *
           <Typography variant="body1">
             {new Date(post.created_at).toUTCString()}
           </Typography>
@@ -55,30 +97,41 @@ const PostItem: FC<Props> = ({ post, userData }) => {
           border: "none",
           cursor: "pointer",
           display: "flex",
-          justifyContent: "space-evenly",
           alignItems: "center",
           mt: 0.5,
           gap: 1,
           background: "none",
         }}
-        onClick={() => setDropdown(!dropdown)}
-        component="button"
       >
-        <CommentIcon
-          sx={{
-            color: "black",
-            width: 20,
-          }}
-        />
-        {commentLength}
+        <Box
+          component="div"
+          sx={{ display: "flex", gap: 1 }}
+          onClick={() => setDropdown(!dropdown)}
+        >
+          <CommentIcon
+            sx={{
+              color: "gray",
+              width: 20,
+            }}
+          />
+          <Typography sx={{ color: "white" }}>{commentLength}</Typography>
+        </Box>
+        <Box
+          component="div"
+          sx={{ display: "flex", gap: 1 }}
+          onClick={submitLike}
+        >
+          <FavoriteBorderIcon
+            sx={{
+              color: "gray",
+              width: 20,
+              ml: 2,
+            }}
+          />
+          <Typography sx={{ color: "white" }}>{post.likes}</Typography>
+        </Box>
       </Box>
-      {dropdown && (
-        <CommentsList
-          commentData={commentData}
-          userData={userData}
-          post={post}
-        />
-      )}
+      {dropdown && <CommentsList commentData={commentData} post={post} />}
     </Card>
   );
 };
