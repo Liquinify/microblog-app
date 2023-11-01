@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 type Props = {};
 
-const QueryProvider = ({ children }) => {
+const QueryProvider = ({ children }: { children: React.ReactNode }) => {
   const queryClient = new QueryClient();
 
   return (

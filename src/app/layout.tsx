@@ -17,7 +17,11 @@ export const metadata: Metadata = {
 // do not cache this layout
 export const revalidate = 0;
 
-export default async function RootLayout({ children }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const supabase = createServerComponentClient<Database>({ cookies });
 
   const {
@@ -32,7 +36,7 @@ export default async function RootLayout({ children }) {
         <div>
           <main>
             <QueryProvider>
-              <Header />
+              <Header session={session} />
               <AuthProvider accessToken={accessToken}>{children}</AuthProvider>
             </QueryProvider>
           </main>

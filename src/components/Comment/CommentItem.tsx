@@ -16,6 +16,7 @@ const CommentItem = ({ comment }: { comment: CommentsWithUser }) => {
         mt: 2,
         background: "transparent",
         color: "white",
+        mb: 2,
       }}
     >
       <Box

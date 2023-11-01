@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { experimental_useOptimistic as useOptimistic } from "react";
 import PostItem from "./PostItem";
 import { Box } from "@mui/material";
 import { useQuery } from "react-query";

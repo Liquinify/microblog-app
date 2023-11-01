@@ -6,31 +6,30 @@ import Link from "next/link";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useRouter } from "next/navigation";
 import Dropdown from "./Dropdown";
-import { useQuery } from "react-query";
-import { getUser } from "@/api/getUser";
+import { useUser } from "@/api/getUser";
 
 const buttonStyles = {
   textDecoration: "none",
   color: "white",
 };
 
-const Header = () => {
+const Header = ({ session }) => {
   const [dropdown, setDropdown] = useState(false);
   const router = useRouter();
-  const ref = useRef(null);
-  const { data: userData } = useQuery("user", getUser);
+  const ref = useRef<HTMLDivElement | null>(null);
+  const { data: userData } = useUser();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (dropdown && ref.current && !ref.current.contains(e.target)) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
         setDropdown(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
@@ -48,7 +47,7 @@ const Header = () => {
             Microblogging
           </Link>
         </Typography>
-        {!userData ? (
+        {!session ? (
           <Box
             component="div"
             sx={{
@@ -70,7 +69,6 @@ const Header = () => {
         ) : (
           <Box
             component="div"
-            ref={ref}
             sx={{
               display: "flex",
               cursor: "pointer",
@@ -78,11 +76,12 @@ const Header = () => {
               justifyContent: "flex-end",
             }}
           >
-            {userData.map((user) => (
+            {userData?.map((user) => (
               <Box
                 key={user.id}
                 sx={{ display: "flex", flexDirection: "row", gap: 2 }}
                 component="div"
+                ref={ref}
               >
                 <Box component="div" sx={{ display: "flex", gap: 2 }}>
                   <Box
@@ -95,7 +94,7 @@ const Header = () => {
                   </Typography>
                 </Box>
                 <ArrowDropDownIcon
-                  onClick={() => setDropdown(!dropdown)}
+                  onClick={() => setDropdown((drop) => !drop)}
                   sx={{ cursor: "pointer" }}
                 />
               </Box>

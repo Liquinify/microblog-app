@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { experimental_useOptimistic as useOptimistic } from "react";
 import CommentItem from "./CommentItem";
 import CommentForm from "./CommentForm";
 import { Comments, Posts } from "@/app/global";

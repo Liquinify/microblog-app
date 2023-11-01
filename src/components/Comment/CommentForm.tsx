@@ -1,14 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { getUser } from "@/api/getUser";
 
-const CommentForm = ({ post }) => {
+const CommentForm = ({ post }: { post: PostsWithUser }) => {
   const { register, handleSubmit, reset } = useForm();
   const queryClient = useQueryClient();
+  const { data } = useQuery("user", getUser);
+
+  useEffect(() => {
+    console.log(data);
+  }, []);
 
   const createCommentMutation = useMutation(
     async (formData: FieldValues) => {
@@ -38,36 +44,38 @@ const CommentForm = ({ post }) => {
 
   return (
     <>
-      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          margin="normal"
-          multiline
-          variant="outlined"
-          label="Post your reply"
-          id="post"
-          {...register("payload", { required: true, maxLength: 100 })}
-          sx={{
-            display: "flex",
-            margin: "auto",
-            mt: 5,
-            marginInline: 2,
-            borderColor: "#495057",
-          }}
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{
-            mt: 2,
-            background: "blue",
-            color: "white",
-            ml: 2,
-            mb: 2,
-          }}
-        >
-          Reply
-        </Button>
-      </Box>
+      {data && (
+        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+          <TextField
+            margin="normal"
+            multiline
+            variant="outlined"
+            label="Post your reply"
+            id="post"
+            {...register("payload", { required: true, maxLength: 100 })}
+            sx={{
+              display: "flex",
+              margin: "auto",
+              mt: 5,
+              marginInline: 2,
+              borderColor: "#495057",
+            }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{
+              mt: 2,
+              background: "blue",
+              color: "white",
+              ml: 2,
+              mb: 2,
+            }}
+          >
+            Reply
+          </Button>
+        </Box>
+      )}
     </>
   );
 };

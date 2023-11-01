@@ -6,7 +6,13 @@ import { useRouter } from "next/navigation";
 
 export const AuthContext = createContext("");
 
-const AuthProvider = ({ accessToken, children }) => {
+const AuthProvider = ({
+  accessToken,
+  children,
+}: {
+  accessToken: string;
+  children: React.ReactNode;
+}) => {
   const supabase = createClientComponentClient();
   const router = useRouter();
 
