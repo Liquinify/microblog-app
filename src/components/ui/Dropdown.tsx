@@ -14,7 +14,8 @@ const dropdownStyles = {
   top: "90%",
   pl: 2,
   pt: 2,
-  background: "#26272b",
+  background: "#f5fffa",
+  color: "black",
 };
 
 const Dropdown = ({ dropdown }: { dropdown: boolean }) => {
@@ -26,7 +27,7 @@ const Dropdown = ({ dropdown }: { dropdown: boolean }) => {
             <Link
               style={{
                 textDecoration: "none",
-                color: "white",
+                color: "black",
                 fontSize: "1rem",
               }}
               href="/profile"

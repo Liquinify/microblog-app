@@ -7,13 +7,14 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useRouter } from "next/navigation";
 import Dropdown from "./Dropdown";
 import { useUser } from "@/api/getUser";
+import { User } from "@supabase/supabase-js";
 
 const buttonStyles = {
   textDecoration: "none",
-  color: "white",
+  color: "black",
 };
 
-const Header = ({ session }) => {
+const Header = ({ session }: { session: User }) => {
   const [dropdown, setDropdown] = useState(false);
   const router = useRouter();
   const ref = useRef<HTMLDivElement | null>(null);
@@ -36,12 +37,17 @@ const Header = ({ session }) => {
   return (
     <AppBar
       position="sticky"
-      sx={{ background: "black", opacity: ".95", width: "100%" }}
+      sx={{
+        background: "#f5fffa",
+        opacity: ".95",
+        width: "100%",
+        height: "4rem",
+      }}
     >
       <Toolbar sx={{ position: "relative" }}>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           <Link
-            style={{ textDecoration: "none", color: "white" }}
+            style={{ textDecoration: "none", color: "black" }}
             href="/posts"
           >
             Microblogging
@@ -61,7 +67,7 @@ const Header = ({ session }) => {
             <Button
               onClick={() => router.push("/sign-up")}
               variant="contained"
-              sx={buttonStyles}
+              sx={{ color: "white" }}
             >
               SIGN UP
             </Button>
@@ -79,7 +85,12 @@ const Header = ({ session }) => {
             {userData?.map((user) => (
               <Box
                 key={user.id}
-                sx={{ display: "flex", flexDirection: "row", gap: 2 }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: 2,
+                  color: "black",
+                }}
                 component="div"
                 ref={ref}
               >

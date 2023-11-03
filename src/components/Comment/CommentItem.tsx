@@ -11,12 +11,12 @@ const CommentItem = ({ comment }: { comment: CommentsWithUser }) => {
         flexDirection: "column",
         paddingLeft: "8px",
         borderLeft: "1px solid #ccc",
-        ml: 2,
+        ml: 4,
         borderRadius: 0,
-        mt: 2,
         background: "transparent",
-        color: "white",
+        color: "black",
         mb: 2,
+        mt: 3,
       }}
     >
       <Box

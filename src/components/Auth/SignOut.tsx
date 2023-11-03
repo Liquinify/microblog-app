@@ -6,8 +6,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 const signOutStyles = {
   display: "flex",
   justifyContent: "flex-start",
-  color: "white",
-  fontFamily: "roboto",
+  color: "black",
   fontSize: "1rem",
   paddingTop: ".6rem",
   cursor: "pointer",

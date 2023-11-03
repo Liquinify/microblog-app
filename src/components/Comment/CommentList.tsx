@@ -9,7 +9,7 @@ const CommentList = ({
   post,
   commentData,
 }: {
-  post: Posts;
+  post: PostsWithUser;
   commentData: CommentsWithUser[];
 }) => {
   return (

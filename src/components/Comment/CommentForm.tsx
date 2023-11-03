@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { Box, Button, TextField } from "@mui/material";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -11,10 +11,6 @@ const CommentForm = ({ post }: { post: PostsWithUser }) => {
   const { register, handleSubmit, reset } = useForm();
   const queryClient = useQueryClient();
   const { data } = useQuery("user", getUser);
-
-  useEffect(() => {
-    console.log(data);
-  }, []);
 
   const createCommentMutation = useMutation(
     async (formData: FieldValues) => {
@@ -57,10 +53,10 @@ const CommentForm = ({ post }: { post: PostsWithUser }) => {
               display: "flex",
               margin: "auto",
               mt: 5,
-              marginInline: 2,
-              borderColor: "#495057",
+              marginInline: 4,
             }}
           />
+
           <Button
             type="submit"
             variant="contained"
@@ -68,7 +64,7 @@ const CommentForm = ({ post }: { post: PostsWithUser }) => {
               mt: 2,
               background: "blue",
               color: "white",
-              ml: 2,
+              ml: 4,
               mb: 2,
             }}
           >

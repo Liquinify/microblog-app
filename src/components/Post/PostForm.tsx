@@ -45,20 +45,19 @@ const PostForm = ({ userData }: { userData: PostsWithUser }) => {
             multiline
             label="What are you up to?"
             id="post"
-            {...register("post", { required: true, maxLength: 100 })}
+            {...register("post", { required: true })}
             sx={{
               display: "flex",
-              width: "43%",
+              width: "40rem",
               margin: "auto",
               mt: 5,
               background: "transparent",
               borderColor: "#495057",
-              borderRadius: "10px",
+              borderRadius: "20px",
             }}
             inputProps={{
               style: {
-                height: "100px",
-                color: "white",
+                height: "6rem",
               },
             }}
           />
@@ -66,7 +65,13 @@ const PostForm = ({ userData }: { userData: PostsWithUser }) => {
           <Button
             type="submit"
             variant="contained"
-            sx={{ ml: 157, mt: 2, backgroundColor: "blue", color: "white" }}
+            sx={{
+              position: "relative",
+              left: "63%",
+              mt: 2,
+              backgroundColor: "blue",
+              color: "white",
+            }}
           >
             Post
           </Button>

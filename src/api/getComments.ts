@@ -9,5 +9,5 @@ export const getComments = async () => {
     console.log(error);
   }
 
-  return data;
+  return data as CommentsWithUser[];
 };
