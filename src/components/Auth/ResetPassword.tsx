@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import Link from "next/link";
 import {
   Box,
   Button,
@@ -11,15 +10,15 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 const ResetPassword = () => {
   const supabase = createClientComponentClient();
   const [errorMsg, setErrorMsg] = useState("");
-  const [successMsg, setSuccessMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState<string>("");
   const { register, handleSubmit } = useForm();
 
-  async function resetPassword(formData) {
+  const resetPassword: SubmitHandler<FieldValues> = async (formData) => {
     const { error } = await supabase.auth.resetPasswordForEmail(
       formData.email,
       {
@@ -32,7 +31,7 @@ const ResetPassword = () => {
     } else {
       setSuccessMsg("Password reset instructions sent.");
     }
-  }
+  };
 
   return (
     <Container component="main" maxWidth="xs" sx={{ mt: 30, ml: 75 }}>
@@ -72,7 +71,6 @@ const ResetPassword = () => {
           </Button>
           {errorMsg && <Typography>{errorMsg}</Typography>}
           {successMsg && <Typography>{successMsg}</Typography>}
-          <Link href="/sign-in">Remember your password? Sign In.</Link>
         </Box>
       </Paper>
     </Container>

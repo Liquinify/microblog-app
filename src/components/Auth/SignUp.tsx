@@ -7,9 +7,7 @@ import {
   Box,
   Button,
   Container,
-  CssBaseline,
   Grid,
-  MenuItem,
   Paper,
   TextField,
   Typography,
@@ -19,8 +17,7 @@ import { SubmitHandler, FieldValues } from "react-hook-form";
 
 const SignUp = () => {
   const supabase = createClientComponentClient();
-  const [errorMsg, setErrorMsg] = useState("");
-  const [successMsg, setSuccessMsg] = useState("");
+  const [error, setError] = useState<boolean>(false);
   const { register, handleSubmit } = useForm();
 
   const defaultAvatar =
@@ -38,17 +35,12 @@ const SignUp = () => {
       },
     });
     if (error) {
-      setErrorMsg(error.message);
-    } else {
-      setSuccessMsg(
-        "Success! Please check your email for further instructions."
-      );
+      setError(true);
     }
   };
 
   return (
     <Container component="main" maxWidth="xs" sx={{ mt: 30, ml: 75 }}>
-      <CssBaseline />
       <Paper
         sx={{
           marginTop: 8,
@@ -57,7 +49,7 @@ const SignUp = () => {
           alignItems: "center",
           justifyContent: "center",
           width: "40rem",
-          height: "30rem",
+          height: "28rem",
           paddingInline: 3,
         }}
       >
@@ -66,33 +58,28 @@ const SignUp = () => {
         </Typography>
         <Box component="form" onSubmit={handleSubmit(signUp)} sx={{ mt: 1 }}>
           <TextField
+            error={error === true}
             margin="normal"
             required
             fullWidth
-            id="username"
             label="Username"
-            autoComplete="username"
-            autoFocus
             {...register("username")}
           />
           <TextField
+            error={error === true}
             margin="normal"
             required
             fullWidth
-            id="email"
             label="Email Address"
-            autoComplete="email"
-            autoFocus
             {...register("email")}
           />
           <TextField
+            error={error === true}
             margin="normal"
             required
             fullWidth
             label="Password"
             type="password"
-            id="password"
-            autoComplete="current-password"
             {...register("password")}
           />
           <Button
@@ -103,18 +90,9 @@ const SignUp = () => {
           >
             Submit
           </Button>
-          {errorMsg && (
-            <Typography sx={{ color: "red", textAlign: "center" }}>
-              {errorMsg}
-            </Typography>
-          )}
           <Grid container>
-            <Grid item xs>
-              <Link href="/reset-password">Forgot password?</Link>
-            </Grid>
-            {successMsg && <Typography>{successMsg}</Typography>}
             <Grid item>
-              <Link href="/sign-up">{"Don't have an account? Sign Up"}</Link>
+              <Link href="/sign-up">Have an account? Sign In</Link>
             </Grid>
           </Grid>
         </Box>

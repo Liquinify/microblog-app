@@ -2,19 +2,21 @@
 
 import React from "react";
 import { Box, Button, TextField } from "@mui/material";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { getUser } from "@/api/getUser";
+import { supabase } from "@/lib/client";
+import { useQuery } from "react-query";
 
 const Profile = () => {
   const { register, handleSubmit } = useForm();
+  const { data } = useQuery("user", getUser);
 
   const updateProfile: SubmitHandler<FieldValues> = async (formData) => {
-    const supabase = createClientComponentClient();
-    const { data } = await supabase.auth.getUser();
     const { error } = await supabase.from("profiles").upsert({
+      id: data?.id,
       username: formData.username,
-      id: data.user?.id,
     });
+    console.log(data);
   };
 
   return (

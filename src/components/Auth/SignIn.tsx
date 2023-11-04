@@ -7,7 +7,6 @@ import {
   Box,
   Button,
   Container,
-  CssBaseline,
   Grid,
   Paper,
   TextField,
@@ -18,23 +17,22 @@ import { SubmitHandler, FieldValues } from "react-hook-form";
 
 const SignIn = () => {
   const supabase = createClientComponentClient();
-  const [errorMsg, setErrorMsg] = useState("");
+  const [error, setError] = useState<boolean>(false);
   const { register, handleSubmit } = useForm();
 
   const signIn: SubmitHandler<FieldValues> = async (formData) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email: formData.email,
       password: formData.password,
     });
 
     if (error) {
-      setErrorMsg(error.message);
+      setError(true);
     }
   };
 
   return (
     <Container component="main" maxWidth="xs" sx={{ mt: 30, ml: 75 }}>
-      <CssBaseline />
       <Paper
         sx={{
           marginTop: 8,
@@ -56,23 +54,23 @@ const SignIn = () => {
           sx={{ mt: 1 }}
         >
           <TextField
+            error={error === true}
             margin="normal"
             required
             fullWidth
             id="email"
             label="Email Address"
-            autoComplete="email"
             autoFocus
             {...register("email")}
           />
           <TextField
+            error={error === true}
             margin="normal"
             required
             fullWidth
             label="Password"
             type="password"
             id="password"
-            autoComplete="current-password"
             {...register("password")}
           />
           <Button
@@ -88,7 +86,7 @@ const SignIn = () => {
               <Link href="/reset-password">Forgot password?</Link>
             </Grid>
             <Grid item>
-              <Link href="/sign-up">{"Don't have an account? Sign Up"}</Link>
+              <Link href="/sign-up">Don't have an account? Sign Up</Link>
             </Grid>
           </Grid>
         </Box>

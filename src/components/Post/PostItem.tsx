@@ -92,7 +92,7 @@ const PostItem = ({ post }: { post: PostsWithUser }) => {
       </CardContent>
       <Box
         sx={{
-          marginInline: 5,
+          marginInline: 4,
           border: "none",
           cursor: "pointer",
           display: "flex",

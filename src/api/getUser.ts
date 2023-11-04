@@ -1,3 +1,4 @@
+import { Profile } from "@/app/global";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery } from "react-query";
 
@@ -9,7 +10,7 @@ export const getUser = async () => {
     .select("*")
     .eq("id", userData.user?.id);
 
-  return profiles;
+  return profiles as Profile[];
 };
 
 export const useUser = () => {

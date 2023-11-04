@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Card } from "@mui/material";
-import Link from "next/link";
 import SignOut from "../auth/SignOut";
 
 const dropdownStyles = {
@@ -24,16 +23,6 @@ const Dropdown = ({ dropdown }: { dropdown: boolean }) => {
       {dropdown && (
         <Box component="div">
           <Card component="div" sx={dropdownStyles}>
-            <Link
-              style={{
-                textDecoration: "none",
-                color: "black",
-                fontSize: "1rem",
-              }}
-              href="/profile"
-            >
-              Profile
-            </Link>
             <SignOut />
           </Card>
         </Box>
