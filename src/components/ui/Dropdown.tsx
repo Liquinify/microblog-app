@@ -8,7 +8,6 @@ const dropdownStyles = {
   flexDirection: "column",
   width: "9rem", // Adjust the width as needed for your content
   height: "10rem",
-  mt: 1,
   position: "absolute",
   right: "0",
   top: "100%",
