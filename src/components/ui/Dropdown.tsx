@@ -6,15 +6,17 @@ const dropdownStyles = {
   display: "flex",
   justifyContent: "flex-start",
   flexDirection: "column",
-  width: "9rem",
+  width: "9rem", // Adjust the width as needed for your content
   height: "10rem",
+  mt: 1,
   position: "absolute",
-  left: "60%",
-  top: "90%",
+  right: "0",
+  top: "100%",
   pl: 2,
   pt: 2,
   background: "#f5fffa",
   color: "black",
+  zIndex: 1,
 };
 
 const Dropdown = ({ dropdown }: { dropdown: boolean }) => {
