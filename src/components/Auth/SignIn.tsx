@@ -86,7 +86,7 @@ const SignIn = () => {
               <Link href="/reset-password">Forgot password?</Link>
             </Grid>
             <Grid item>
-              <Link href="/sign-up">Don't have an account? Sign Up</Link>
+              <Link href="/sign-up">Don&apos;t have an account? Sign Up</Link>
             </Grid>
           </Grid>
         </Box>

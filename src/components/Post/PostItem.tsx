@@ -5,6 +5,7 @@ import { Box, Card, CardContent, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import CommentIcon from "@mui/icons-material/Comment";
 import CommentsList from "../comment/CommentList";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { getComments } from "@/api/getComments";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -13,6 +14,17 @@ const PostItem = ({ post }: { post: PostsWithUser }) => {
   const [dropdown, setDropdown] = useState(false);
   const { data: commentData, isError } = useQuery("comments", getComments);
   const queryClient = useQueryClient();
+
+  const postCard = {
+    margin: "16px auto",
+    minHeight: "10rem",
+    color: "black",
+    background: "transparent",
+    border: "1px solid lightgray",
+    borderRadius: "10px",
+    maxWidth: "40rem",
+    width: "90%",
+  };
 
   const commentLength = commentData?.filter(
     (comment) => comment.post_id === post.id
@@ -49,19 +61,7 @@ const PostItem = ({ post }: { post: PostsWithUser }) => {
   };
 
   return (
-    <Card
-      variant="outlined"
-      sx={{
-        maxWidth: 800,
-        margin: "16px auto",
-        minHeight: "10rem",
-        color: "black",
-        background: "transparent",
-        border: "1px solid lightgray",
-        borderRadius: "10px",
-        width: "40rem",
-      }}
-    >
+    <Card variant="outlined" sx={postCard}>
       <CardContent sx={{ mt: 1 }}>
         <Box
           sx={{
@@ -117,24 +117,26 @@ const PostItem = ({ post }: { post: PostsWithUser }) => {
           >
             <CommentIcon
               sx={{
-                color: "gray",
                 width: 20,
               }}
             />
             <Typography sx={{ color: "black" }}>{commentLength}</Typography>
           </Box>
-          <Box
-            component="div"
-            sx={{ display: "flex", gap: 1 }}
-            onClick={submitLike}
-          >
-            <FavoriteBorderIcon
-              sx={{
-                color: "gray",
-                width: 20,
-                ml: 2,
-              }}
-            />
+          <Box component="div" sx={{ display: "flex", gap: 1 }}>
+            {post.user_has_liked_post === true ? (
+              <FavoriteIcon
+                sx={{ color: "red", width: 20, ml: 2 }}
+                onClick={submitLike}
+              />
+            ) : (
+              <FavoriteBorderIcon
+                sx={{
+                  width: 20,
+                  ml: 2,
+                }}
+                onClick={submitLike}
+              />
+            )}
             <Typography sx={{ color: "black" }}>{post.likes}</Typography>
           </Box>
         </Box>

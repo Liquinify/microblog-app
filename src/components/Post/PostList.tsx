@@ -6,7 +6,7 @@ import { Box } from "@mui/material";
 import { useQuery } from "react-query";
 import { getPosts } from "@/api/getPosts";
 
-const PostList = ({ userData }: { userData: PostsWithUser }) => {
+const PostList = ({ userData }: { userData: any }) => {
   const { data: postData, isError } = useQuery("posts", getPosts);
 
   const posts =

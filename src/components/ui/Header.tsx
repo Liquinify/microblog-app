@@ -7,14 +7,14 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useRouter } from "next/navigation";
 import Dropdown from "./Dropdown";
 import { useUser } from "@/api/getUser";
-import { User } from "@supabase/supabase-js";
+import { Session, User } from "@supabase/supabase-js";
 
 const buttonStyles = {
   textDecoration: "none",
   color: "black",
 };
 
-const Header = ({ session }: { session: User }) => {
+const Header = ({ session }: { session: Session | null }) => {
   const [dropdown, setDropdown] = useState(false);
   const router = useRouter();
   const ref = useRef<HTMLDivElement | null>(null);

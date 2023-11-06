@@ -11,13 +11,13 @@ const Profile = () => {
   const { register, handleSubmit } = useForm();
   const { data } = useQuery("user", getUser);
 
-  const updateProfile: SubmitHandler<FieldValues> = async (formData) => {
-    const { error } = await supabase.from("profiles").upsert({
-      id: data?.id,
-      username: formData.username,
-    });
-    console.log(data);
-  };
+  // const updateProfile: SubmitHandler<FieldValues> = async (formData) => {
+  //   const { error } = await supabase.from("profiles").upsert({
+  //     id: data.id,
+  //     username: formData.username,
+  //   });
+  //   console.log(data);
+  // };
 
   return (
     <Box
@@ -29,7 +29,7 @@ const Profile = () => {
         width: "40%",
         mt: 15,
       }}
-      onSubmit={handleSubmit(updateProfile)}
+      // onSubmit={handleSubmit(updateProfile)}
     >
       <TextField
         label="Username"

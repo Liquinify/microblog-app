@@ -10,7 +10,7 @@ const AuthProvider = ({
   accessToken,
   children,
 }: {
-  accessToken: string;
+  accessToken: string | null;
   children: React.ReactNode;
 }) => {
   const supabase = createClientComponentClient();

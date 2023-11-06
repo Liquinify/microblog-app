@@ -26,5 +26,8 @@
     "react-hook-form": "^7.46.1",
     "react-query": "^3.39.3",
     "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "encoding": "^0.1.13"
   }
 }

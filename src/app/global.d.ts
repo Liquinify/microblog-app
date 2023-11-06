@@ -14,7 +14,7 @@ declare global {
       avatar_url: string;
       username: string;
     };
-    likes: number;
+    likes: any;
     user_has_liked_post: boolean;
   };
   type CommentsWithUser = Comments & {

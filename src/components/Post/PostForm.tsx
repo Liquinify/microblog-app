@@ -6,7 +6,7 @@ import { Box, Button, TextField } from "@mui/material";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 
-const PostForm = ({ userData }: { userData: PostsWithUser }) => {
+const PostForm = ({ userData }: { userData: any }) => {
   const { register, handleSubmit, reset } = useForm();
   const queryClient = useQueryClient();
 
@@ -16,7 +16,7 @@ const PostForm = ({ userData }: { userData: PostsWithUser }) => {
         .from("posts")
         .insert({
           post: formData.post,
-          user_id: userData.user.id,
+          user_id: userData?.user.id,
         })
         .single();
       if (error) {
@@ -39,7 +39,11 @@ const PostForm = ({ userData }: { userData: PostsWithUser }) => {
   return (
     <>
       {userData.user === null ? null : (
-        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          sx={{ position: "relative" }}
+        >
           <TextField
             margin="normal"
             multiline
@@ -48,11 +52,10 @@ const PostForm = ({ userData }: { userData: PostsWithUser }) => {
             {...register("post", { required: true })}
             sx={{
               display: "flex",
-              width: "40rem",
+              maxWidth: "40rem",
+              width: "90%",
               margin: "auto",
               mt: 5,
-              background: "transparent",
-              borderColor: "#495057",
               borderRadius: "20px",
             }}
             inputProps={{
@@ -66,7 +69,7 @@ const PostForm = ({ userData }: { userData: PostsWithUser }) => {
             type="submit"
             variant="contained"
             sx={{
-              position: "relative",
+              position: "absolute",
               left: "63%",
               mt: 2,
               backgroundColor: "blue",

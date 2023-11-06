@@ -9,7 +9,7 @@ const dropdownStyles = {
   width: "9rem",
   height: "10rem",
   position: "absolute",
-  left: "91.5%",
+  left: "60%",
   top: "90%",
   pl: 2,
   pt: 2,

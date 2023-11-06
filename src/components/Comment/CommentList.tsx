@@ -1,6 +1,6 @@
 "use client";
 
-import React, { experimental_useOptimistic as useOptimistic } from "react";
+import React from "react";
 import CommentItem from "./CommentItem";
 import CommentForm from "./CommentForm";
 import { Comments, Posts } from "@/app/global";
@@ -10,7 +10,7 @@ const CommentList = ({
   commentData,
 }: {
   post: PostsWithUser;
-  commentData: CommentsWithUser[];
+  commentData: CommentsWithUser[] | undefined;
 }) => {
   return (
     <>

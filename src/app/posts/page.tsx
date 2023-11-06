@@ -1,8 +1,8 @@
+import React from "react";
 import PostForm from "@/components/post/PostForm";
 import PostList from "@/components/post/PostList";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import React from "react";
 
 const page = async () => {
   const supabase = createServerComponentClient<Database>({ cookies });
